@@ -26,19 +26,6 @@
         }
         .logo { font-weight: 800; font-size: 1.6rem; text-decoration: none; color: var(--text-main); }
         .logo span { color: var(--accent); }
-        .cart-trigger { cursor: pointer; display: flex; align-items: center; font-weight: 600; font-size: 0.8rem; }
-        .cart-status { font-size: 0.8rem; background: var(--accent); color: white; padding: 2px 8px; border-radius: 10px; margin-left: 5px; }
-
-        /* --- Cart Drawer --- */
-        .cart-drawer {
-            position: fixed; top: 0; right: -400px; width: 400px; height: 100%;
-            background: var(--card-bg); z-index: 3000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            padding: 40px; display: flex; flex-direction: column;
-        }
-        .cart-drawer.active { right: 0; }
-        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-        .cart-item img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
-        .remove-btn { color: #e53e3e; font-size: 0.75rem; cursor: pointer; font-weight: 700; margin-top: 5px; display: inline-block; }
 
         /* --- Product Grid --- */
         .product-grid { padding: 40px 8% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
@@ -51,20 +38,19 @@
         .modal-content { background: var(--card-bg); width: 90%; max-width: 850px; border-radius: 30px; display: grid; grid-template-columns: 1fr 1.2fr; overflow: hidden; position: relative; }
         .modal-details { padding: 40px; }
 
-        /* Inquiry Modal Specific */
+        /* Inquiry Form Specific */
         .inquiry-content { max-width: 500px; display: block; padding: 40px; border-radius: 20px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: 600; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-main); }
 
         /* --- UI Elements --- */
-        .btn-action { padding: 15px 30px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; width: 100%; }
-        .btn-action:disabled { background: #a0aec0; cursor: not-allowed; }
+        .btn-action { padding: 15px 30px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; width: 100%; text-decoration: none; display: inline-block; text-align: center; }
         .filter-btn { padding: 10px 25px; border-radius: 30px; border: 1px solid var(--border); background: var(--card-bg); cursor: pointer; color: var(--text-main); font-weight: 500; }
         .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
         .contact-section { padding: 80px 8%; background: var(--card-bg); border-top: 1px solid var(--border); text-align: center; }
 
-        @media (max-width: 850px) { .modal-content { grid-template-columns: 1fr; } .cart-drawer { width: 100%; } }
+        @media (max-width: 850px) { .modal-content { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -72,26 +58,12 @@
     <nav>
         <a href="#" class="logo">FOUR-<span>D</span></a>
         <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="cart-trigger" onclick="toggleCart(true)">CART <span class="cart-status" id="cartCount">0</span></div>
             <div id="themeToggle" style="width: 45px; height: 24px; background: var(--text-sub); border-radius: 20px; cursor: pointer; position: relative;">
                 <div id="toggleDot" style="width: 18px; height: 18px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 4px;"></div>
             </div>
             <a href="javascript:void(0)" onclick="scrollToContact()" style="text-decoration: none; color: var(--accent); font-weight: 700;">CONTACT US</a>
         </div>
     </nav>
-
-    <div id="cartDrawer" class="cart-drawer">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h3>My Cart</h3><span style="cursor:pointer; font-size: 1.5rem;" onclick="toggleCart(false)">&times;</span>
-        </div>
-        <div id="cartItemsList" style="flex-grow:1; overflow-y:auto;"></div>
-        <div style="border-top: 1px solid var(--border); padding-top: 20px;">
-            <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;">
-                <span>Total</span><span id="cartTotalDisplay">$0</span>
-            </div>
-            <button class="btn-action" onclick="placeOrder()">PLACE ORDER</button>
-        </div>
-    </div>
 
     <section style="padding: 160px 8% 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
         <div>
@@ -156,22 +128,20 @@
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content" id="productModalContent">
-            <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
+            <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer; z-index:10;" onclick="closeModal()">&times;</span>
             <img id="modalImg" src="" style="width:100%; height:100%; object-fit:cover;">
             <div class="modal-details">
                 <h2 id="modalTitle"></h2>
                 <div id="modalStars" style="color:#f1c40f; margin:10px 0;"></div>
-                <p id="modalDesc" style="color:var(--text-sub); margin-bottom:20px;"></p>
-                <div id="modalPrice" style="font-size:2rem; font-weight:800; color:var(--accent); margin-bottom:10px;"></div>
-                <div id="modalStock" style="font-weight:700; margin-bottom:20px;"></div>
-                <button class="btn-action" id="addToCartBtn" onclick="addToCart()">ADD TO CART</button>
+                <p id="modalDesc" style="color:var(--text-sub); margin-bottom:40px;"></p>
+                <button class="btn-action" onclick="toggleInquiry(true)">REQUEST QUOTE / INQUIRE</button>
             </div>
         </div>
 
         <div class="modal-content inquiry-content" id="inquiryModalContent">
             <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
             <h2 style="margin-bottom: 10px;">Send an Inquiry</h2>
-            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 25px;">Our experts will get back to you within 24 hours.</p>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 25px;">Our project managers will contact you within 24 hours.</p>
             <div class="form-group">
                 <label>Your Name</label>
                 <input type="text" placeholder="Enter your full name">
@@ -182,7 +152,7 @@
             </div>
             <div class="form-group">
                 <label>How can we help?</label>
-                <textarea rows="4" placeholder="Tell us about your office project..."></textarea>
+                <textarea rows="4" placeholder="Tell us about your project requirements..."></textarea>
             </div>
             <button class="btn-action" onclick="submitInquiry()">SUBMIT INQUIRY</button>
         </div>
@@ -190,29 +160,22 @@
 
     <script>
         const products = {
-            'chair_aero': { id: 'chair_aero', title: "Aero Task Chair", price: 420, stock: 15, rating: 5, desc: "Breathable mesh masterclass with 4D armrests.", img: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" },
-            'desk_linear': { id: 'desk_linear', title: "Linear Pro Desk", price: 850, stock: 8, rating: 4, desc: "Integrated power rails and cable management.", img: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=600" },
-            'desk_vertex': { id: 'desk_vertex', title: "Vertex Standing Desk", price: 1100, stock: 5, rating: 5, desc: "Dual-motor height adjustment with memory.", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600" },
-            'desk_oak': { id: 'desk_oak', title: "Executive Oak", price: 2400, stock: 2, rating: 5, desc: "Solid wood executive suite for boardroom excellence.", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600" },
-            'storage_mod': { id: 'storage_mod', title: "Modular Filing Unit", price: 310, stock: 10, rating: 5, desc: "High-density steel archive storage.", img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=600" },
-            'storage_pod': { id: 'storage_pod', title: "Acoustic Focus Pod", price: 3500, stock: 3, rating: 4, desc: "Sound-proof environment for deep work.", img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=600" }
+            'chair_aero': { title: "Aero Task Chair", rating: 5, desc: "Breathable mesh masterclass with 4D armrests. Engineered for ergonomic sustainability.", img: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" },
+            'desk_linear': { title: "Linear Pro Desk", rating: 4, desc: "Integrated power rails and cable management for the ultimate clean-desk setup.", img: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=600" },
+            'desk_vertex': { title: "Vertex Standing Desk", rating: 5, desc: "Dual-motor height adjustment with memory presets and anti-collision technology.", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600" },
+            'desk_oak': { title: "Executive Oak", rating: 5, desc: "Hand-finished solid wood executive suite for boardroom excellence and leadership comfort.", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600" },
+            'storage_mod': { title: "Modular Filing Unit", rating: 5, desc: "High-density steel archive storage with customizable drawer configurations.", img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=600" },
+            'storage_pod': { title: "Acoustic Focus Pod", rating: 4, desc: "Fully ventilated sound-proof environment for deep work and private communications.", img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=600" }
         };
 
-        let cart = [];
-        let activeID = null;
-
-        function toggleCart(show) { document.getElementById('cartDrawer').classList.toggle('active', show); if(show) renderCart(); }
-
         function openProduct(id) {
-            activeID = id; const p = products[id];
+            const p = products[id];
             document.getElementById('productModalContent').style.display = 'grid';
             document.getElementById('inquiryModalContent').style.display = 'none';
             document.getElementById('modalTitle').innerText = p.title;
             document.getElementById('modalDesc').innerText = p.desc;
-            document.getElementById('modalPrice').innerText = `$${p.price.toLocaleString()}`;
             document.getElementById('modalImg').src = p.img;
             document.getElementById('modalStars').innerText = "★".repeat(p.rating);
-            updateStockUI();
             document.getElementById('modalOverlay').style.display = 'flex';
         }
 
@@ -224,52 +187,22 @@
 
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
 
-        function updateStockUI() {
-            const p = products[activeID];
-            document.getElementById('modalStock').innerText = p.stock > 0 ? `Stock: ${p.stock} units` : "Out of Stock";
-            document.getElementById('addToCartBtn').disabled = p.stock <= 0;
+        function submitInquiry() {
+            alert("Inquiry Sent! A corporate agent will contact you shortly.");
+            closeModal();
         }
-
-        function addToCart() {
-            const p = products[activeID];
-            if(p.stock > 0) {
-                p.stock--;
-                const existing = cart.find(i => i.id === activeID);
-                if(existing) existing.qty++; else cart.push({...p, qty: 1});
-                updateGlobalUI(); updateStockUI(); toggleCart(true);
-            }
-        }
-
-        function removeItem(id) {
-            const idx = cart.findIndex(i => i.id === id);
-            if(idx > -1) {
-                products[id].stock += cart[idx].qty;
-                cart.splice(idx, 1);
-                updateGlobalUI(); renderCart();
-                if(activeID === id) updateStockUI();
-            }
-        }
-
-        function renderCart() {
-            const list = document.getElementById('cartItemsList');
-            let total = 0; list.innerHTML = cart.length ? '' : 'Your cart is empty.';
-            cart.forEach(item => {
-                total += (item.price * item.qty);
-                list.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><b>${item.title}</b><br>$${item.price.toLocaleString()} x ${item.qty}<br><span class="remove-btn" onclick="removeItem('${item.id}')">REMOVE</span></div></div>`;
-            });
-            document.getElementById('cartTotalDisplay').innerText = `$${total.toLocaleString()}`;
-        }
-
-        function submitInquiry() { alert("Inquiry Sent! A corporate agent will contact you shortly."); closeModal(); }
-        function updateGlobalUI() { document.getElementById('cartCount').innerText = cart.reduce((a,b) => a+b.qty, 0); }
-        function placeOrder() { if(cart.length) { alert("Order Confirmed!"); cart = []; updateGlobalUI(); toggleCart(false); } }
 
         function filterItems(cat, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
-            document.querySelectorAll('.product-card').forEach(c => c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none');
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+            });
         }
 
-        function scrollToContact() { document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); }
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
 
         document.getElementById('themeToggle').onclick = () => {
             const isDark = document.body.dataset.theme === 'dark';
