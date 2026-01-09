@@ -31,24 +31,24 @@
         .product-grid { padding: 40px 8% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
         .product-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; position: relative; }
         .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
-        .badge { position: absolute; top: 15px; left: 15px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 800; }
+        .badge { position: absolute; top: 15px; left: 15px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 800; z-index: 2; }
 
         /* --- Modals --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: var(--card-bg); width: 90%; max-width: 850px; border-radius: 30px; display: grid; grid-template-columns: 1fr 1.2fr; overflow: hidden; position: relative; }
         .modal-details { padding: 40px; }
 
-        /* Inquiry Form Specific */
-        .inquiry-content { max-width: 500px; display: block; padding: 40px; border-radius: 20px; }
+        /* Inquiry/Visit Forms */
+        .form-content { max-width: 500px; display: none; padding: 40px; border-radius: 20px; position: relative; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-main); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-main); }
 
         /* --- UI Elements --- */
-        .btn-action { padding: 15px 30px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; width: 100%; text-decoration: none; display: inline-block; text-align: center; }
+        .btn-action { padding: 15px 30px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; width: 100%; text-align: center; }
+        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); margin-top: 10px; }
         .filter-btn { padding: 10px 25px; border-radius: 30px; border: 1px solid var(--border); background: var(--card-bg); cursor: pointer; color: var(--text-main); font-weight: 500; }
         .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .contact-section { padding: 80px 8%; background: var(--card-bg); border-top: 1px solid var(--border); text-align: center; }
 
         @media (max-width: 850px) { .modal-content { grid-template-columns: 1fr; } }
     </style>
@@ -58,6 +58,7 @@
     <nav>
         <a href="#" class="logo">FOUR-<span>D</span></a>
         <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="javascript:void(0)" onclick="openVisitModal()" style="text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.8rem;">SCHEDULE VISIT</a>
             <div id="themeToggle" style="width: 45px; height: 24px; background: var(--text-sub); border-radius: 20px; cursor: pointer; position: relative;">
                 <div id="toggleDot" style="width: 18px; height: 18px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 4px;"></div>
             </div>
@@ -67,14 +68,9 @@
 
     <section style="padding: 160px 8% 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
         <div>
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1.1; margin-bottom: 20px;">
-                Engineered for the <br>Modern Workspace.
-            </h1>
-            <p style="margin-bottom: 30px; color: var(--text-sub); line-height: 1.6;">
-                FOUR-D specializes in high-performance office furniture manufacturing.
-                From ergonomic workstations to executive boardroom suites, we define professional excellence.
-            </p>
-            <button class="filter-btn active" style="padding: 15px 40px; background: var(--accent); color: white;">View 2026 Catalog</button>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1.1; margin-bottom: 20px;">Architectural Office Solutions.</h1>
+            <p style="margin-bottom: 30px; color: var(--text-sub); line-height: 1.6;">Precision-engineered workstations and ergonomic environments for the modern professional.</p>
+            <button class="btn-action" style="max-width: 250px;" onclick="openVisitModal()">Schedule Showroom Tour</button>
         </div>
         <div style="height: 450px; border-radius: 30px; overflow: hidden;">
             <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000" style="width:100%; height:100%; object-fit:cover;">
@@ -82,7 +78,7 @@
     </section>
 
     <div style="text-align: center; padding: 40px 8% 0;">
-        <h2>Specialized Office Collections</h2>
+        <h2>Corporate Collections</h2>
         <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
             <button class="filter-btn active" onclick="filterItems('all', this)">All Furniture</button>
             <button class="filter-btn" onclick="filterItems('desks', this)">Workstations</button>
@@ -102,7 +98,7 @@
             <div style="padding:20px;"><h3>Linear Pro Desk</h3><p>Smart cable management.</p></div>
         </div>
         <div class="product-card" data-cat="desks" onclick="openProduct('desk_vertex')">
-            <span class="badge">NEW</span>
+            <span class="badge">POPULAR</span>
             <img src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600" style="width:100%; height:250px; object-fit:cover;">
             <div style="padding:20px;"><h3>Vertex Standing Desk</h3><p>Adjustable height presets.</p></div>
         </div>
@@ -120,41 +116,39 @@
         </div>
     </div>
 
-    <section id="contact" class="contact-section">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 15px;">Get in Touch</h2>
-        <p style="color: var(--text-sub); margin-bottom: 30px;">Speak with our consultants about your workspace transformation.</p>
-        <button class="btn-action" style="max-width: 200px;" onclick="toggleInquiry(true)">Inquire Now</button>
-    </section>
-
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content" id="productModalContent">
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-content" id="productModalContent" onclick="event.stopPropagation()">
             <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer; z-index:10;" onclick="closeModal()">&times;</span>
             <img id="modalImg" src="" style="width:100%; height:100%; object-fit:cover;">
             <div class="modal-details">
                 <h2 id="modalTitle"></h2>
                 <div id="modalStars" style="color:#f1c40f; margin:10px 0;"></div>
-                <p id="modalDesc" style="color:var(--text-sub); margin-bottom:40px;"></p>
-                <button class="btn-action" onclick="toggleInquiry(true)">REQUEST QUOTE / INQUIRE</button>
+                <p id="modalDesc" style="color:var(--text-sub); margin-bottom:30px;"></p>
+                <button class="btn-action" onclick="openInquiryModal()">REQUEST QUOTE</button>
+                <button class="btn-action btn-outline" onclick="openVisitModal()">BOOK SHOWROOM TOUR</button>
             </div>
         </div>
 
-        <div class="modal-content inquiry-content" id="inquiryModalContent">
+        <div class="modal-content form-content" id="inquiryModalContent" onclick="event.stopPropagation()">
             <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
-            <h2 style="margin-bottom: 10px;">Send an Inquiry</h2>
-            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 25px;">Our project managers will contact you within 24 hours.</p>
-            <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" placeholder="Enter your full name">
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" placeholder="email@company.com">
-            </div>
-            <div class="form-group">
-                <label>How can we help?</label>
-                <textarea rows="4" placeholder="Tell us about your project requirements..."></textarea>
-            </div>
+            <h2>Corporate Inquiry</h2>
+            <p style="color: var(--text-sub); margin-bottom: 25px;">Our experts will contact you within 24 hours.</p>
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+            <div class="form-group"><label>Company Email</label><input type="email" placeholder="name@company.com"></div>
+            <div class="form-group"><label>Message</label><textarea rows="4" placeholder="Tell us about your requirements..."></textarea></div>
             <button class="btn-action" onclick="submitInquiry()">SUBMIT INQUIRY</button>
+        </div>
+
+        <div class="modal-content form-content" id="visitModalContent" onclick="event.stopPropagation()">
+            <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
+            <h2>Showroom Visit</h2>
+            <p style="color: var(--text-sub); margin-bottom: 25px;">Schedule a private viewing of our collections.</p>
+            <div class="form-group"><label>Preferred Location</label>
+                <select><option>Chicago HQ</option><option>London Design Hub</option><option>Singapore Suite</option></select>
+            </div>
+            <div class="form-group"><label>Select Date</label><input type="date"></div>
+            <div class="form-group"><label>Contact Number</label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+            <button class="btn-action" onclick="submitVisit()">CONFIRM TOUR REQUEST</button>
         </div>
     </div>
 
@@ -163,34 +157,38 @@
             'chair_aero': { title: "Aero Task Chair", rating: 5, desc: "Breathable mesh masterclass with 4D armrests. Engineered for ergonomic sustainability.", img: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" },
             'desk_linear': { title: "Linear Pro Desk", rating: 4, desc: "Integrated power rails and cable management for the ultimate clean-desk setup.", img: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=600" },
             'desk_vertex': { title: "Vertex Standing Desk", rating: 5, desc: "Dual-motor height adjustment with memory presets and anti-collision technology.", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600" },
-            'desk_oak': { title: "Executive Oak", rating: 5, desc: "Hand-finished solid wood executive suite for boardroom excellence and leadership comfort.", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600" },
+            'desk_oak': { title: "Executive Oak", rating: 5, desc: "Hand-finished solid wood executive suite for boardroom excellence.", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600" },
             'storage_mod': { title: "Modular Filing Unit", rating: 5, desc: "High-density steel archive storage with customizable drawer configurations.", img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=600" },
-            'storage_pod': { title: "Acoustic Focus Pod", rating: 4, desc: "Fully ventilated sound-proof environment for deep work and private communications.", img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=600" }
+            'storage_pod': { title: "Acoustic Focus Pod", rating: 4, desc: "Fully ventilated sound-proof environment for deep work.", img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=600" }
         };
 
         function openProduct(id) {
             const p = products[id];
+            document.getElementById('modalOverlay').style.display = 'flex';
             document.getElementById('productModalContent').style.display = 'grid';
             document.getElementById('inquiryModalContent').style.display = 'none';
+            document.getElementById('visitModalContent').style.display = 'none';
             document.getElementById('modalTitle').innerText = p.title;
             document.getElementById('modalDesc').innerText = p.desc;
             document.getElementById('modalImg').src = p.img;
             document.getElementById('modalStars').innerText = "★".repeat(p.rating);
-            document.getElementById('modalOverlay').style.display = 'flex';
         }
 
-        function toggleInquiry(show) {
+        function openInquiryModal() {
             document.getElementById('productModalContent').style.display = 'none';
             document.getElementById('inquiryModalContent').style.display = 'block';
-            document.getElementById('modalOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        function openVisitModal() {
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.getElementById('productModalContent').style.display = 'none';
+            document.getElementById('inquiryModalContent').style.display = 'none';
+            document.getElementById('visitModalContent').style.display = 'block';
         }
 
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
-
-        function submitInquiry() {
-            alert("Inquiry Sent! A corporate agent will contact you shortly.");
-            closeModal();
-        }
+        function submitInquiry() { alert("Inquiry sent! A consultant will contact you shortly."); closeModal(); }
+        function submitVisit() { alert("Tour request received! We will confirm your time slot shortly."); closeModal(); }
 
         function filterItems(cat, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -200,13 +198,9 @@
             });
         }
 
-        function scrollToContact() {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        }
-
         document.getElementById('themeToggle').onclick = () => {
             const isDark = document.body.dataset.theme === 'dark';
-            document.body.dataset.theme = isDark ? 'light' : 'dark';
+            document.body.dataset.theme = isDark ? '' : 'dark';
             document.getElementById('toggleDot').style.left = isDark ? '4px' : '23px';
         };
     </script>
