@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOUR-D | Corporate Office Solutions</title>
+    <title>FOUR-D | Philippines' Premier Office Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,7 +18,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
         body { background-color: var(--bg); color: var(--text-main); overflow-x: hidden; }
 
-        /* --- Navigation --- */
         nav {
             position: fixed; top: 0; width: 100%; padding: 1rem 8%;
             display: flex; justify-content: space-between; align-items: center;
@@ -27,28 +26,27 @@
         .logo { font-weight: 800; font-size: 1.6rem; text-decoration: none; color: var(--text-main); }
         .logo span { color: var(--accent); }
 
-        /* --- Product Grid --- */
         .product-grid { padding: 40px 8% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
         .product-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; position: relative; }
         .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
         .badge { position: absolute; top: 15px; left: 15px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 800; z-index: 2; }
 
-        /* --- Modals --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: var(--card-bg); width: 90%; max-width: 850px; border-radius: 30px; display: grid; grid-template-columns: 1fr 1.2fr; overflow: hidden; position: relative; }
         .modal-details { padding: 40px; }
 
-        /* Inquiry/Visit Forms */
         .form-content { max-width: 500px; display: none; padding: 40px; border-radius: 20px; position: relative; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: 600; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-main); }
 
-        /* --- UI Elements --- */
         .btn-action { padding: 15px 30px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; width: 100%; text-align: center; }
         .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); margin-top: 10px; }
         .filter-btn { padding: 10px 25px; border-radius: 30px; border: 1px solid var(--border); background: var(--card-bg); cursor: pointer; color: var(--text-main); font-weight: 500; }
         .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Map Container */
+        #mapContainer { width: 100%; height: 200px; margin-top: 15px; border-radius: 15px; overflow: hidden; border: 1px solid var(--border); }
 
         @media (max-width: 850px) { .modal-content { grid-template-columns: 1fr; } }
     </style>
@@ -56,20 +54,20 @@
 <body>
 
     <nav>
-        <a href="#" class="logo">FOUR-<span>D</span></a>
+        <a href="#" class="logo">FOUR-<span>D</span> PH</a>
         <div style="display: flex; align-items: center; gap: 20px;">
             <a href="javascript:void(0)" onclick="openVisitModal()" style="text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.8rem;">SCHEDULE VISIT</a>
             <div id="themeToggle" style="width: 45px; height: 24px; background: var(--text-sub); border-radius: 20px; cursor: pointer; position: relative;">
                 <div id="toggleDot" style="width: 18px; height: 18px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 4px;"></div>
             </div>
-            <a href="javascript:void(0)" onclick="scrollToContact()" style="text-decoration: none; color: var(--accent); font-weight: 700;">CONTACT US</a>
+            <a href="#" style="text-decoration: none; color: var(--accent); font-weight: 700;">CONTACT US</a>
         </div>
     </nav>
 
     <section style="padding: 160px 8% 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
         <div>
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1.1; margin-bottom: 20px;">Architectural Office Solutions.</h1>
-            <p style="margin-bottom: 30px; color: var(--text-sub); line-height: 1.6;">Precision-engineered workstations and ergonomic environments for the modern professional.</p>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1.1; margin-bottom: 20px;">Manila's Smart Workspace.</h1>
+            <p style="margin-bottom: 30px; color: var(--text-sub); line-height: 1.6;">Precision-engineered workstations for the modern Filipino professional. Visit our showrooms in BGC and Makati.</p>
             <button class="btn-action" style="max-width: 250px;" onclick="openVisitModal()">Schedule Showroom Tour</button>
         </div>
         <div style="height: 450px; border-radius: 30px; overflow: hidden;">
@@ -78,7 +76,7 @@
     </section>
 
     <div style="text-align: center; padding: 40px 8% 0;">
-        <h2>Corporate Collections</h2>
+        <h2>Local Corporate Collections</h2>
         <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
             <button class="filter-btn active" onclick="filterItems('all', this)">All Furniture</button>
             <button class="filter-btn" onclick="filterItems('desks', this)">Workstations</button>
@@ -89,7 +87,7 @@
 
     <div class="product-grid" id="productGrid">
         <div class="product-card" data-cat="seating" onclick="openProduct('chair_aero')">
-            <span class="badge">NEW</span>
+            <span class="badge">LATEST IN PH</span>
             <img src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" style="width:100%; height:250px; object-fit:cover;">
             <div style="padding:20px;"><h3>Aero Task Chair</h3><p>Ergonomic mesh masterclass.</p></div>
         </div>
@@ -132,9 +130,9 @@
         <div class="modal-content form-content" id="inquiryModalContent" onclick="event.stopPropagation()">
             <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
             <h2>Corporate Inquiry</h2>
-            <p style="color: var(--text-sub); margin-bottom: 25px;">Our experts will contact you within 24 hours.</p>
-            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name"></div>
-            <div class="form-group"><label>Company Email</label><input type="email" placeholder="name@company.com"></div>
+            <p style="color: var(--text-sub); margin-bottom: 25px;">Our Manila experts will contact you shortly.</p>
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Juan Dela Cruz"></div>
+            <div class="form-group"><label>Company Email</label><input type="email" placeholder="name@company.com.ph"></div>
             <div class="form-group"><label>Message</label><textarea rows="4" placeholder="Tell us about your requirements..."></textarea></div>
             <button class="btn-action" onclick="submitInquiry()">SUBMIT INQUIRY</button>
         </div>
@@ -142,25 +140,46 @@
         <div class="modal-content form-content" id="visitModalContent" onclick="event.stopPropagation()">
             <span style="position:absolute; top:20px; right:20px; font-size:2rem; cursor:pointer;" onclick="closeModal()">&times;</span>
             <h2>Showroom Visit</h2>
-            <p style="color: var(--text-sub); margin-bottom: 25px;">Schedule a private viewing of our collections.</p>
+            <p style="color: var(--text-sub); margin-bottom: 25px;">Schedule a private viewing in our PH hubs.</p>
             <div class="form-group"><label>Preferred Location</label>
-                <select><option>Chicago HQ</option><option>London Design Hub</option><option>Singapore Suite</option></select>
+                <select id="visitLocation" onchange="updateMap()">
+                    <option value="BGC">BGC (High Street Area)</option>
+                    <option value="Makati">Makati (Ayala Ave)</option>
+                    <option value="Cebu">Cebu (IT Park)</option>
+                </select>
             </div>
-            <div class="form-group"><label>Select Date</label><input type="date"></div>
-            <div class="form-group"><label>Contact Number</label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+            <div id="mapContainer">
+                <iframe id="mapFrame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="form-group" style="margin-top:15px;"><label>Select Date</label><input type="date" id="visitDate"></div>
+            <div class="form-group"><label>Contact Number</label><input type="tel" placeholder="+63 917 000 0000"></div>
             <button class="btn-action" onclick="submitVisit()">CONFIRM TOUR REQUEST</button>
         </div>
     </div>
 
     <script>
+        const maps = {
+            'BGC': "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.642735773173!2d121.0471230758451!3d14.54228917869687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c8ef634045f3%3A0x7d6a543888825a0!2sBonifacio%20High%20Street!5e0!3m2!1sen!2sph!4v1700000000000",
+            'Makati': "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.4394857416955!2d121.01899537584525!3d14.554034878413123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c908f599988b%3A0x10915a133532c58e!2sAyala%20Ave%2C%20Makati%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1700000000000",
+            'Cebu': "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.1873722254353!2d123.90391267577558!3d10.326880867347314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9992268155555%3A0x4a47144e7c093a18!2sCebu%20IT%20Park!5e0!3m2!1sen!2sph!4v1700000000000"
+        };
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('visitDate').setAttribute('min', today);
+
         const products = {
-            'chair_aero': { title: "Aero Task Chair", rating: 5, desc: "Breathable mesh masterclass with 4D armrests. Engineered for ergonomic sustainability.", img: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" },
+            'chair_aero': { title: "Aero Task Chair", rating: 5, desc: "Breathable mesh masterclass with 4D armrests. Available for immediate BGC delivery.", img: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=600" },
             'desk_linear': { title: "Linear Pro Desk", rating: 4, desc: "Integrated power rails and cable management for the ultimate clean-desk setup.", img: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=600" },
             'desk_vertex': { title: "Vertex Standing Desk", rating: 5, desc: "Dual-motor height adjustment with memory presets and anti-collision technology.", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600" },
             'desk_oak': { title: "Executive Oak", rating: 5, desc: "Hand-finished solid wood executive suite for boardroom excellence.", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600" },
             'storage_mod': { title: "Modular Filing Unit", rating: 5, desc: "High-density steel archive storage with customizable drawer configurations.", img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=600" },
             'storage_pod': { title: "Acoustic Focus Pod", rating: 4, desc: "Fully ventilated sound-proof environment for deep work.", img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=600" }
         };
+
+        function updateMap() {
+            const loc = document.getElementById('visitLocation').value;
+            document.getElementById('mapFrame').src = maps[loc];
+        }
 
         function openProduct(id) {
             const p = products[id];
@@ -184,11 +203,12 @@
             document.getElementById('productModalContent').style.display = 'none';
             document.getElementById('inquiryModalContent').style.display = 'none';
             document.getElementById('visitModalContent').style.display = 'block';
+            updateMap(); // Initialize map when modal opens
         }
 
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
-        function submitInquiry() { alert("Inquiry sent! A consultant will contact you shortly."); closeModal(); }
-        function submitVisit() { alert("Tour request received! We will confirm your time slot shortly."); closeModal(); }
+        function submitInquiry() { alert("Salamat! Inquiry sent to our Manila office."); closeModal(); }
+        function submitVisit() { alert("Tour request received! We will confirm your schedule via SMS."); closeModal(); }
 
         function filterItems(cat, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
